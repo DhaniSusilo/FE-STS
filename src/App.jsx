@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import RootLayout from "./page/rootLayout";
 import Home from "./page/home/home";
-import AdminPusatView from "./page/dashnoard/adminPusatView";
 import Dashboard from "./page/dashnoard/Dashboard";
 
 const router = createBrowserRouter(

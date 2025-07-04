@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import DashboardComp from "./dashboardComp";
+import RekapitulasiTable from "./RekapitulasiTable";
+import { exportToExcel } from "../utils/exportToExcel";
 
-const Dashboard = () => {
+const DashboardComp = () => {
   const [stats, setStats] = useState({
     today: 0,
     total: 0,
   });
-  const isPusat = localStorage.getItem("level") === "Pusat";
+  const [rekap, setRekap] = useState([]);
+  const [isKelurahan, setIsKelurahan] = useState(false);
 
-  // Fetch member stats and grouped rekap data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,15 +55,30 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Section 1: Navigation Buttons */}
-      <div className="dashboard-section nav-section">
-        <button className="nav-button">Dashboard</button>
-        {isPusat && <button className="nav-button">Manage</button>}
+      {/* Section 2: Member Stats */}
+      <div className="dashboard-section stats-section">
+        <div className="stat-card">
+          <h3>Member Hari Ini</h3>
+          <p>{stats.hari_ini}</p>
+        </div>
+        <div className="stat-card">
+          <h3>Total Member</h3>
+          <p>{stats.total}</p>
+        </div>
       </div>
 
-      <DashboardComp />
+      {/* Section 3: Rekapitulasi Data */}
+      <div className="dashboard-section rekap-section">
+        <div>
+          <h2>Rekapitulasi Berdasarkan Level dan Wilayah</h2>
+          <button onClick={() => exportToExcel(rekap)} className="login-button">
+            Export to Excel
+          </button>
+        </div>
+        <RekapitulasiTable data={rekap} isKelurahan={isKelurahan} />
+      </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default DashboardComp;
