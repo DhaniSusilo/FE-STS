@@ -12,7 +12,10 @@ const Home = () => {
   };
   return (
     <div>
-      <button onClick={() => setIsLoginOpen(true)} className="login-button">
+      <button
+        onClick={() => setIsLoginOpen(true)}
+        className="login-button shadow"
+      >
         Open Login
       </button>
       <LoginPopup

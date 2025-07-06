@@ -1,66 +1,33 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import DashboardComp from "./dashboardComp";
+import Manage from "../management/manage";
 
 const Dashboard = () => {
-  const [stats, setStats] = useState({
-    today: 0,
-    total: 0,
-  });
   const isPusat = localStorage.getItem("level") === "Pusat";
+  const [isDashboard, setIsDashboard] = useState(true);
+  const user = localStorage.getItem("name");
 
-  // Fetch member stats and grouped rekap data
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const statsRes = await axios.post(
-          "http://localhost:8080/admins/dashboard",
-          {
-            level: localStorage.getItem("level"),
-            for: localStorage.getItem("for"),
-          }
-        );
-        console.log(statsRes.data.data.Data);
-        const rekapRes = await axios.post(
-          "http://localhost:8080/admins/rekap",
-          {
-            level: localStorage.getItem("level"),
-            wilayah: localStorage.getItem("for"),
-            // level: "Kelurahan",
-            // wilayah: "Dago",
-            page: 1,
-            rowsPerPage: 5,
-          }
-        );
-        console.log(rekapRes.data);
-
-        setStats(statsRes.data.data.Data);
-        console.log(stats);
-        if (rekapRes.data.Members != null) {
-          setRekap(rekapRes.data.Members);
-          setIsKelurahan(true);
-        } else {
-          setRekap(rekapRes.data.Aggregated);
-          setIsKelurahan(false);
-        }
-      } catch (err) {
-        console.error("Failed to fetch dashboard data:", err);
-      }
-    };
-
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const ToggleMenu = (a) => {
+    if (a) setIsDashboard(true);
+    else setIsDashboard(false);
+  };
 
   return (
     <div className="dashboard-container">
+      <h2 className="header-inline">Halo {user}!</h2>
       {/* Section 1: Navigation Buttons */}
       <div className="dashboard-section nav-section">
-        <button className="nav-button">Dashboard</button>
-        {isPusat && <button className="nav-button">Manage</button>}
+        <button className="nav-button" onClick={() => ToggleMenu(1)}>
+          Dashboard
+        </button>
+        {isPusat && (
+          <button className="nav-button" onClick={() => ToggleMenu(0)}>
+            Manage
+          </button>
+        )}
       </div>
 
-      <DashboardComp />
+      {isDashboard ? <DashboardComp /> : <Manage />}
     </div>
   );
 };

@@ -731,7 +731,11 @@ export default function RegistrationForm() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="form-container" noValidate>
+      <form
+        onSubmit={handleSubmit}
+        className="form-container shadow"
+        noValidate
+      >
         <h2 className="form-heading">Form Pendaftaran</h2>
 
         {/* No. KTP */}
