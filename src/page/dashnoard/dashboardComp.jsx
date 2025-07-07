@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import RekapitulasiTable from "./RekapitulasiTable";
 import { exportToExcel } from "../utils/exportToExcel";
+import MemberIntervalChart from "./graph";
 
 const DashboardComp = () => {
   const [stats, setStats] = useState({ hari_ini: 0, total: 0 });
@@ -49,14 +50,17 @@ const DashboardComp = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="dashboard-section stats-section">
-        <div className="stat-card shadow">
-          <h3>Member Hari Ini</h3>
-          <p>{stats.hari_ini}</p>
-        </div>
-        <div className="stat-card shadow">
-          <h3>Total Member</h3>
-          <p>{stats.total}</p>
+      <div>
+        <MemberIntervalChart />
+        <div className="dashboard-section stats-section">
+          <div className="stat-card shadow">
+            <h3>Member Hari Ini</h3>
+            <p>{stats.hari_ini}</p>
+          </div>
+          <div className="stat-card shadow">
+            <h3>Total Member</h3>
+            <p>{stats.total}</p>
+          </div>
         </div>
       </div>
 

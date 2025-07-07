@@ -4,6 +4,7 @@ import ip from "../../ip";
 import AddPopup from "./Add";
 import EditPopup from "./Edit";
 import DeletePopup from "./delete";
+import { exportToExcel } from "../utils/exportToExcel";
 
 const Manage = () => {
   const [data, setData] = useState([]);
@@ -82,7 +83,9 @@ const Manage = () => {
         onConfirm={handleDelete}
         data={selectedData}
       />
-      ;
+      <button onClick={() => exportToExcel(data)} className="btn edit">
+        Export to Excel
+      </button>
       <table className="styled-table">
         <thead>
           <tr>
